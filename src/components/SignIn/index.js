@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 
 import { SignUpLink } from "../SignUp";
@@ -52,7 +52,7 @@ class SignInFormBase extends Component {
     const isInvalid = password === "" || email === "";
 
     return (
-      <form>
+      <form onSubmit={this.onSubmit}>
         <input
           name="email"
           value={email}
