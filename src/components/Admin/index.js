@@ -45,7 +45,7 @@ class AdminPage extends Component {
   }
 }
 
-const UserList = ({ users }) => {
+const UserList = ({ users }) => (
   <ul>
     {users.map((user) => (
       <li key={user.uid}>
@@ -60,7 +60,7 @@ const UserList = ({ users }) => {
         </span>
       </li>
     ))}
-  </ul>;
-};
+  </ul>
+);
 
 export default withFirebase(AdminPage);
