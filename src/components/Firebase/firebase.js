@@ -34,7 +34,7 @@ class Firebase {
     this.auth.currentUser.updatePassword(password);
 
   // *** Merge Auth and DB User API ***
-  onAuthUserListener = (next, fallBack) =>
+  onAuthUserListener = (next, fallback) =>
     this.auth.onAuthStateChanged((authUser) => {
       if (authUser) {
         this.user(authUser.uid)

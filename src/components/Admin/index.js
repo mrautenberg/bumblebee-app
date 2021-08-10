@@ -50,6 +50,7 @@ class UserListBase extends Component {
   }
 
   render() {
+    const { loading, users } = this.state;
     return (
       <div>
         <h2>Users</h2>
@@ -154,4 +155,4 @@ const condition = (authUser) => authUser && !!authUser.roles[ROLES.ADMIN];
 const UserList = withFirebase(UserListBase);
 const UserItem = withFirebase(UserItemBase);
 
-export default compose(withAuthorization(condition), withFirebase)(AdminPage);
+export default compose(withAuthorization(condition))(AdminPage);
