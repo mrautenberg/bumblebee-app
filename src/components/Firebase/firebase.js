@@ -1,6 +1,6 @@
 import app from "firebase/app";
 import "firebase/auth";
-import "firebase/firestore"; // @TODO: Update to firestore
+import "firebase/firestore";
 
 const config = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -15,9 +15,8 @@ class Firebase {
   constructor() {
     app.initializeApp(config);
 
-    /*
-      HELPER used for timestamps:     this.fieldValue = app.firestore.FieldValue;
-    */
+    // HELPER used for timestamps:
+    this.fieldValue = app.firestore.FieldValue;
 
     this.auth = app.auth();
     this.db = app.firestore();
