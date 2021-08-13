@@ -1,6 +1,6 @@
 import app from "firebase/app";
 import "firebase/auth";
-import "firebase/database"; // @TODO: Update to firestore
+import "firebase/firestore"; // @TODO: Update to firestore
 
 const config = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -15,8 +15,12 @@ class Firebase {
   constructor() {
     app.initializeApp(config);
 
+    /*
+      HELPER used for timestamps:     this.fieldValue = app.firestore.FieldValue;
+    */
+
     this.auth = app.auth();
-    this.db = app.database();
+    this.db = app.firestore();
   }
 
   // *** Auth API ***
@@ -38,9 +42,9 @@ class Firebase {
     this.auth.onAuthStateChanged((authUser) => {
       if (authUser) {
         this.user(authUser.uid)
-          .once("value")
+          .get()
           .then((snapshot) => {
-            const dbUser = snapshot.val();
+            const dbUser = snapshot.data();
 
             // default empty roles
             if (!dbUser.roles) {
@@ -63,9 +67,14 @@ class Firebase {
 
   // *** User API ***
 
-  user = (uid) => this.db.ref(`users/${uid}`);
+  user = (uid) => this.db.doc(`users/${uid}`);
 
-  users = () => this.db.ref("users");
+  users = () => this.db.collection("users");
+
+  // *** Message API ***
+  message = (uid) => this.db.doc(`messages/${uid}`);
+
+  messages = () => this.db.collection("messages");
 }
 
 export default Firebase;

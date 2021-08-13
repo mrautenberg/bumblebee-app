@@ -1,5 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
+import { compose } from "recompose";
 
 import AuthUserContext from "./context";
 import { withFirebase } from "../Firebase";
@@ -33,7 +34,7 @@ const withAuthorization = (condition) => (Component) => {
     }
   }
 
-  return withRouter(withFirebase(WithAuthorization));
+  return compose(withRouter, withFirebase)(WithAuthorization);
 };
 
 export default withAuthorization;

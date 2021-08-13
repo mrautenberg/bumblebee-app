@@ -33,20 +33,23 @@ class UserListBase extends Component {
   componentDidMount() {
     this.setState({ loading: true });
 
-    this.props.firebase.users().on("value", (snapshot) => {
-      const usersObject = snapshot.val();
+    this.unsubcribe = this.props.firebase.users().onSnapshot((snapshot) => {
+      let users = [
+        snapshot.forEach((doc) => {
+          let users = [
+            snapshot.forEach((doc) => {
+              users.push({ ...doc.data(), uid: doc.id });
+            }),
+          ];
+        }),
+      ];
 
-      const usersList = Object.keys(usersObject).map((key) => ({
-        ...usersObject[key],
-        uid: key,
-      }));
-
-      this.setState({ users: usersList, loading: false });
+      this.setState({ users, loading: false });
     });
   }
 
   componentWillUnmount() {
-    this.props.firebase.users().off();
+    this.unsubcribe();
   }
 
   render() {
@@ -104,15 +107,16 @@ class UserItemBase extends Component {
 
     this.setState({ loading: true });
 
-    this.props.firebase
-      .user(this.props.match.params.id)
-      .on("value", (snapshot) => {
-        this.setState({ user: snapshot.val(), loading: false });
+    this.unsubcribe.user(this.props.match.params.id).onSnapshot((snapshot) => {
+      this.setState({
+        user: snapshot.data(),
+        loading: false,
       });
+    });
   }
 
   componentWillUnmount() {
-    this.props.firebase.user(this.props.match.params.id).off();
+    this.unsubscribe && this.unsubscribe();
   }
 
   onPasswordResetEmail = () => {
