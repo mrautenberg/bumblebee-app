@@ -19,6 +19,7 @@ class MessageBase extends Component {
     super(props);
 
     this.state = {
+      text: "",
       loading: false,
       messages: [],
     };
@@ -50,8 +51,22 @@ class MessageBase extends Component {
     this.props.firebase.messages().off();
   }
 
+  onChangeText = (event) => {
+    this.setState({ text: event.target.value });
+  };
+
+  onCreateMessage = (event) => {
+    this.props.firebase.messages().push({
+      text: this.state.text,
+    });
+
+    this.setState({ text: "" });
+
+    event.preventDefault();
+  };
+
   render() {
-    const { messages, loading } = this.state;
+    const { text, messages, loading } = this.state;
 
     return (
       <div>
@@ -62,6 +77,11 @@ class MessageBase extends Component {
         ) : (
           <div>There are no messages...</div>
         )}
+
+        <form onSubmit={this.onCreateMessage}>
+          <input type="text" value={text} onChange={this.onChange} />
+          <button type="submit">Send</button>
+        </form>
       </div>
     );
   }
