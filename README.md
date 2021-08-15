@@ -12,6 +12,6 @@
 
 - [x] firebase & realtime DB
 - [x] migrating from realtime DB to Firestore
-- [] class based to functional components
+- [ ] class based to functional components
 - [ ] UI fixes (just to make it somewhat less ugly when testing out stuff)
 - [ ] Figma sketch and UX research
