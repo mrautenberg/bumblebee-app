@@ -8,17 +8,11 @@ import * as ROUTES from "../../constants/routes";
 import * as ROLES from "../../constants/roles";
 
 const Navigation = () => (
-  <div>
-    <AuthUserContext.Consumer>
-      {(authUser) =>
-        authUser ? (
-          <NavigationAuth authUser={authUser} />
-        ) : (
-          <NavigationNonAuth />
-        )
-      }
-    </AuthUserContext.Consumer>
-  </div>
+  <AuthUserContext.Consumer>
+    {(authUser) =>
+      authUser ? <NavigationAuth authUser={authUser} /> : <NavigationNonAuth />
+    }
+  </AuthUserContext.Consumer>
 );
 
 const NavigationAuth = ({ authUser }) => (

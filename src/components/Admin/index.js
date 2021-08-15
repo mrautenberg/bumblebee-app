@@ -1,10 +1,9 @@
-import React, { Component } from "react";
-import { Switch, Route, Link } from "react-router-dom";
-
+import React from "react";
+import { Switch, Route } from "react-router-dom";
 import { compose } from "recompose";
 
-import { withFirebase } from "../Firebase";
 import { withAuthorization } from "../Session";
+import { UserList, UserItem } from "../Users";
 import * as ROLES from "../../constants/roles";
 import * as ROUTES from "../../constants/routes";
 
@@ -20,143 +19,7 @@ const AdminPage = () => (
   </div>
 );
 
-class UserListBase extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      loading: false,
-      users: [],
-    };
-  }
-
-  componentDidMount() {
-    this.setState({ loading: true });
-
-    this.unsubcribe = this.props.firebase.users().onSnapshot((snapshot) => {
-      let users = [
-        snapshot.forEach((doc) => {
-          let users = [
-            snapshot.forEach((doc) => {
-              users.push({ ...doc.data(), uid: doc.id });
-            }),
-          ];
-        }),
-      ];
-
-      this.setState({ users, loading: false });
-    });
-  }
-
-  componentWillUnmount() {
-    this.unsubcribe();
-  }
-
-  render() {
-    const { loading, users } = this.state;
-    return (
-      <div>
-        <h2>Users</h2>
-        {loading && <div>Loading</div>}
-
-        <ul>
-          {users.map((user) => (
-            <li key={user.uid}>
-              <span>
-                <strong>ID:</strong> {user.uid}
-              </span>
-              <span>
-                <strong>E-Mail</strong> {user.email}
-              </span>
-              <span>
-                <strong>Username</strong> {user.username}
-              </span>
-              <span>
-                <Link
-                  to={{
-                    pathname: `${ROUTES.ADMIN}/${user.uid}`,
-                    state: { user },
-                  }}
-                >
-                  Details
-                </Link>
-              </span>
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-  }
-}
-
-class UserItemBase extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      loading: false,
-      user: null,
-      ...props.location.state,
-    };
-  }
-
-  componentDidMount() {
-    if (this.state.user) {
-      return;
-    }
-
-    this.setState({ loading: true });
-
-    this.unsubcribe.user(this.props.match.params.id).onSnapshot((snapshot) => {
-      this.setState({
-        user: snapshot.data(),
-        loading: false,
-      });
-    });
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe && this.unsubscribe();
-  }
-
-  onPasswordResetEmail = () => {
-    this.props.firebase.doPasswordReset(this.state.user.email);
-  };
-
-  render() {
-    const { user, loading } = this.state;
-
-    return (
-      <div>
-        <h2>User ({this.props.match.params.id})</h2>
-        {loading && <div>Loading...</div>}
-
-        {user && (
-          <div>
-            <span>
-              <strong>ID:</strong> {user.uid}
-            </span>
-            <span>
-              <strong>E-Mail</strong> {user.email}
-            </span>
-            <span>
-              <strong>Username:</strong> {user.username}
-            </span>
-            <span>
-              <button type="button" onClick={this.onPasswordResetEmail}>
-                Sent Password Reset
-              </button>
-            </span>
-          </div>
-        )}
-      </div>
-    );
-  }
-}
-
-const condition = (authUser) => authUser && !!authUser.roles[ROLES.ADMIN];
-
-const UserList = withFirebase(UserListBase);
-const UserItem = withFirebase(UserItemBase);
+const condition = (authUser) =>
+  authUser && !!authUser.roles.includes(ROLES.ADMIN);
 
 export default compose(withAuthorization(condition))(AdminPage);

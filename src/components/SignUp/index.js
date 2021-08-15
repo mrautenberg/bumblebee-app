@@ -5,16 +5,14 @@ import { withFirebase } from "../Firebase";
 import * as ROUTES from "../../constants/routes";
 import * as ROLES from "../../constants/roles";
 
-const SignUpPage = () => {
-  return (
-    <div>
-      <h1>Sign Up</h1>
-      <SignUpForm />
-    </div>
-  );
-};
+const SignUpPage = () => (
+  <div>
+    <h1>Sign Up</h1>
+    <SignUpForm />
+  </div>
+);
 
-const initialState = {
+const INITIAL_STATE = {
   username: "",
   email: "",
   passwordOne: "",
@@ -27,8 +25,7 @@ class SignUpFormBase extends Component {
   constructor(props) {
     super(props);
 
-    // Spread initial state in state
-    this.state = { ...initialState };
+    this.state = { ...INITIAL_STATE };
   }
 
   onSubmit = (event) => {
@@ -54,7 +51,7 @@ class SignUpFormBase extends Component {
         );
       })
       .then(() => {
-        this.setState({ ...initialState });
+        this.setState({ ...INITIAL_STATE });
         this.props.history.push(ROUTES.HOME);
       })
       .catch((error) => {
