@@ -1,7 +1,11 @@
+import Layout from "../components/Layout";
+
 export default function AboutPage() {
   return (
-    <div>
+    <Layout title="About Bumblebee">
       <h1>About</h1>
-    </div>
+      <p>This is an app to identify bumblebees</p>
+      <p>Version 1.0.0</p>
+    </Layout>
   );
 }

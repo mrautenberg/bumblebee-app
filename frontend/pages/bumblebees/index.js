@@ -1,7 +1,9 @@
+import Layout from "../../components/Layout";
+
 export default function BumblebeePage() {
   return (
-    <div>
+    <Layout>
       <h1>All bumblebees</h1>
-    </div>
+    </Layout>
   );
 }
