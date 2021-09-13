@@ -1,4 +1,4 @@
-import Layout from "../components/Layout";
+import Layout from "../components/Layout"
 
 export default function AboutPage() {
   return (
@@ -7,5 +7,5 @@ export default function AboutPage() {
       <p>This is an app to identify bumblebees</p>
       <p>Version 1.0.0</p>
     </Layout>
-  );
+  )
 }

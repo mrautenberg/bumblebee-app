@@ -1,7 +1,7 @@
-import Head from "next/head";
-import Header from "./Header";
-import Footer from "./Footer";
-import styles from "../styles/Layout.module.css";
+import Head from "next/head"
+import Header from "./Header"
+import Footer from "./Footer"
+import styles from "../styles/Layout.module.css"
 
 export default function Layout({ title, keywords, description, children }) {
   return (
@@ -16,11 +16,13 @@ export default function Layout({ title, keywords, description, children }) {
       <div className={styles.container}>{children}</div>
       <Footer />
     </div>
-  );
+  )
 }
 
+// Default props to ensure that we
+// always have something SEO friendly in head
 Layout.defaultProps = {
   title: "Bumbleebee | Identify bumblebees",
   description: "Helps you to identify bumbleebees",
   keywords: "bumblebee, insect, identify",
-};
+}
